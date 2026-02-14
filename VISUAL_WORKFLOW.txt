@@ -1,0 +1,113 @@
+
+════════════════════════════════════════════════════════════════════════
+VISUAL WORKFLOW
+════════════════════════════════════════════════════════════════════════
+
+
+                        YOUR 538 VIDEOS
+                              │
+                              ▼
+                    ┌─────────────────────┐
+                    │ split_into_batches  │
+                    │      .py            │
+                    └─────────────────────┘
+                              │
+         ┌────────────────────┼────────────────────┐
+         │                    │                    │
+         ▼                    ▼                    ▼
+    batch_0.csv          batch_1.csv          batch_2.csv
+    (0-99)               (100-199)            (200-299)
+         │                    │                    │
+         ▼                    ▼                    ▼
+    ┌─────────┐          ┌─────────┐          ┌─────────┐
+    │ KAGGLE  │          │  COLAB  │          │ GITHUB  │
+    │ (Ntbk 1)│          │ (Acc 1) │          │CODESPACE│
+    └─────────┘          └─────────┘          └─────────┘
+         │                    │                    │
+         │   lightweight_     │                    │
+         │    checker.py      │                    │
+         │                    │                    │
+         ▼                    ▼                    ▼
+    results_0.csv        results_1.csv        results_2.csv
+         │                    │                    │
+         │                    │                    │
+         ▼                    ▼                    ▼
+    batch_3.csv          batch_4.csv          batch_5.csv
+    (300-399)            (400-499)            (500-537)
+         │                    │                    │
+         ▼                    ▼                    ▼
+    ┌─────────┐          ┌─────────┐          ┌─────────┐
+    │  COLAB  │          │ KAGGLE  │          │   ANY   │
+    │ (Acc 2) │          │ (Ntbk 2)│          │PLATFORM │
+    └─────────┘          └─────────┘          └─────────┘
+         │                    │                    │
+         ▼                    ▼                    ▼
+    results_3.csv        results_4.csv        results_5.csv
+         │                    │                    │
+         └────────────────────┼────────────────────┘
+                              │
+                              ▼
+                    ┌─────────────────────┐
+                    │  merge_results.py   │
+                    └─────────────────────┘
+                              │
+              ┌───────────────┼───────────────┐
+              │               │               │
+              ▼               ▼               ▼
+    final_transcript_   videos_with_    videos_without_
+     availability.csv   bangla.csv     transcripts.csv
+         (ALL 538)      (Bangla only)   (No transcripts)
+
+
+════════════════════════════════════════════════════════════════════════
+TIME BREAKDOWN
+════════════════════════════════════════════════════════════════════════
+
+PARALLEL (Recommended):
+┌────────────────────────────────────────────────────────┐
+│ All 6 platforms running simultaneously                 │
+│                                                         │
+│ Time: ~30-40 minutes total                             │
+│ (Limited by slowest batch, usually ~20-30 min/batch)  │
+└────────────────────────────────────────────────────────┘
+
+SEQUENTIAL (If needed):
+┌────────────────────────────────────────────────────────┐
+│ One batch at a time with 2-hour breaks                │
+│                                                         │
+│ Time: ~2 days (spread across mornings/evenings)       │
+│ Active time: ~2 hours total                            │
+│ Waiting time: ~10-12 hours (breaks between batches)   │
+└────────────────────────────────────────────────────────┘
+
+
+════════════════════════════════════════════════════════════════════════
+SUCCESS METRICS
+════════════════════════════════════════════════════════════════════════
+
+Expected Results:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Total Videos:                538
+Videos with Transcripts:     ~160-270  (30-50%)
+Videos with Bangla:          ~50-110   (10-20%)
+Videos with English:         ~80-160   (15-30%)
+Videos with No Transcripts:  ~270-380  (50-70%)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Note: These are estimates based on typical YouTube content.
+Your actual results may vary!
+
+
+════════════════════════════════════════════════════════════════════════
+KEY ADVANTAGES
+════════════════════════════════════════════════════════════════════════
+
+✅ 6 different IPs = no rate limit conflicts
+✅ Lightweight checks = ~3 seconds per video (vs 10+ for full extraction)
+✅ Progress saved every 10 videos = resume anytime
+✅ Auto-detect rate limits and stop = no wasted time
+✅ Parallel processing = 6x faster than sequential
+✅ Final merged CSV = easy to analyze
+
+
+════════════════════════════════════════════════════════════════════════

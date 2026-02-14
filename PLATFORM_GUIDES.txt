@@ -1,0 +1,145 @@
+════════════════════════════════════════════════════════════════════════
+PLATFORM-SPECIFIC QUICK START GUIDES
+════════════════════════════════════════════════════════════════════════
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ KAGGLE QUICK START                                             ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+1. Go to kaggle.com
+2. Click "Code" → "New Notebook"
+3. Click "+ Add data" → Upload batch_0.csv (or batch_1.csv, etc.)
+4. Create new cell and paste:
+
+   !pip -q install youtube-transcript-api
+   
+5. Upload lightweight_checker.py using the file upload button
+6. Edit the script to set:
+   
+   INPUT_CSV = "/kaggle/input/[YOUR-DATASET-NAME]/batch_0.csv"
+   OUTPUT_CSV = "/kaggle/working/transcript_availability.csv"
+   
+7. Create new cell and run:
+
+   !python /kaggle/input/[YOUR-DATASET-NAME]/lightweight_checker.py
+   
+8. Wait for completion (~10-20 minutes for 100 videos)
+9. Download result from /kaggle/working/transcript_availability.csv
+10. Rename to results_0.csv (or results_1.csv, etc.)
+
+TIP: You can run 2 different notebooks on Kaggle simultaneously!
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ GOOGLE COLAB QUICK START                                       ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+1. Go to colab.research.google.com
+2. Click "New Notebook"
+3. Install library:
+
+   !pip install youtube-transcript-api
+   
+4. Upload files:
+   - Click folder icon on left sidebar
+   - Upload batch_1.csv (or your assigned batch)
+   - Upload lightweight_checker.py
+
+5. Edit lightweight_checker.py:
+   - Change INPUT_CSV = "batch_1.csv"
+   
+6. Run the checker:
+
+   !python lightweight_checker.py
+   
+7. Wait for completion
+8. Download transcript_availability.csv
+   - Right-click the file in left sidebar
+   - Select "Download"
+   - Rename to results_1.csv
+
+TIP: Use different Google accounts or Incognito windows to run multiple 
+     Colab instances at once!
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ GITHUB CODESPACES QUICK START                                  ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+1. Create a new GitHub repository
+2. Go to your repo and click "Code" → "Codespaces" → "New codespace"
+3. Wait for environment to load
+4. Upload files:
+   - Drag batch_2.csv into file explorer
+   - Drag lightweight_checker.py into file explorer
+
+5. Install dependencies:
+
+   pip install youtube-transcript-api pandas
+   
+6. Edit lightweight_checker.py:
+   - Change INPUT_CSV = "batch_2.csv"
+   
+7. Run:
+
+   python lightweight_checker.py
+   
+8. Download transcript_availability.csv
+9. Rename to results_2.csv
+
+TIP: Codespaces gives you 60 hours/month free on personal account!
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ ALTERNATIVE: REPLIT                                            ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+1. Go to replit.com
+2. Click "Create Repl"
+3. Choose "Python"
+4. Upload batch_3.csv and lightweight_checker.py
+5. In Shell tab, run:
+
+   pip install youtube-transcript-api pandas
+   python lightweight_checker.py
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ LOCAL MACHINE (If you have Python)                            ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+1. Open terminal/command prompt
+2. Install:
+
+   pip install youtube-transcript-api pandas
+   
+3. Put batch_4.csv and lightweight_checker.py in same folder
+4. Edit INPUT_CSV in the script
+5. Run:
+
+   python lightweight_checker.py
+
+════════════════════════════════════════════════════════════════════════
+IMPORTANT NOTES
+════════════════════════════════════════════════════════════════════════
+
+✅ ALWAYS edit INPUT_CSV to match your batch file name
+✅ Each platform has a different IP = no interference between them
+✅ You can run all platforms simultaneously for maximum speed
+✅ Save progress every 10 videos (automatic in the script)
+✅ If rate limited, just switch to next platform
+
+════════════════════════════════════════════════════════════════════════
+TROUBLESHOOTING
+════════════════════════════════════════════════════════════════════════
+
+Problem: "ModuleNotFoundError: No module named 'youtube_transcript_api'"
+Solution: Run: pip install youtube-transcript-api
+
+Problem: "FileNotFoundError: batch_X.csv"
+Solution: Make sure you uploaded the CSV and the filename matches exactly
+
+Problem: Getting "Blocked" status repeatedly
+Solution: That platform is rate limited. Switch to a different platform
+          and continue from where it stopped
+
+Problem: Script finishes too fast (< 1 minute)
+Solution: Check if INPUT_CSV path is correct and file has video IDs
+
+════════════════════════════════════════════════════════════════════════

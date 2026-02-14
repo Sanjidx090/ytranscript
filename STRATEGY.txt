@@ -1,0 +1,189 @@
+════════════════════════════════════════════════════════════════════════
+MULTI-PLATFORM STRATEGY FOR 538 VIDEOS
+Transcript Availability Check
+════════════════════════════════════════════════════════════════════════
+
+GOAL: Check if transcripts exist for all 538 videos without rate limits
+
+STRATEGY: Distribute the work across multiple platforms, each with different IPs
+
+════════════════════════════════════════════════════════════════════════
+PHASE 1: PREPARATION (5 minutes)
+════════════════════════════════════════════════════════════════════════
+
+1. Split your CSV into batches:
+   
+   Run: python split_into_batches.py
+   
+   This creates:
+   - batch_0.csv    (videos 0-99)    → Use on Kaggle
+   - batch_1.csv    (videos 100-199) → Use on Colab
+   - batch_2.csv    (videos 200-299) → Use on GitHub Codespaces
+   - batch_3.csv    (videos 300-399) → Use on another Colab account
+   - batch_4.csv    (videos 400-499) → Use on Kaggle (different notebook)
+   - batch_5.csv    (videos 500-537) → Use anywhere
+
+2. Upload lightweight_checker.py to each platform
+
+════════════════════════════════════════════════════════════════════════
+PHASE 2: PARALLEL EXECUTION (30-60 minutes)
+════════════════════════════════════════════════════════════════════════
+
+Run these ALL AT THE SAME TIME on different platforms:
+
+┌─────────────────────────────────────────────────────────────┐
+│ PLATFORM 1: KAGGLE                                          │
+├─────────────────────────────────────────────────────────────┤
+│ Batch: 0-99 (100 videos)                                    │
+│ Setup:                                                       │
+│   1. Create new Kaggle notebook                             │
+│   2. Upload batch_0.csv                                      │
+│   3. Upload lightweight_checker.py                           │
+│   4. Edit INPUT_CSV = "batch_0.csv"                          │
+│   5. Set START_INDEX = 0, BATCH_SIZE = 100                   │
+│   6. Run the script                                          │
+│ Time: ~20-30 minutes                                        │
+│ Download: transcript_availability.csv → rename to results_0.csv │
+└─────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────┐
+│ PLATFORM 2: GOOGLE COLAB                                    │
+├─────────────────────────────────────────────────────────────┤
+│ Batch: 100-199 (100 videos)                                 │
+│ Setup:                                                       │
+│   1. Go to colab.research.google.com                        │
+│   2. Upload batch_1.csv                                      │
+│   3. Upload lightweight_checker.py                           │
+│   4. Edit INPUT_CSV = "batch_1.csv"                          │
+│   5. Set START_INDEX = 0, BATCH_SIZE = 100                   │
+│   6. Run: !python lightweight_checker.py                     │
+│ Time: ~20-30 minutes                                        │
+│ Download: transcript_availability.csv → rename to results_1.csv │
+└─────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────┐
+│ PLATFORM 3: GITHUB CODESPACES                               │
+├─────────────────────────────────────────────────────────────┤
+│ Batch: 200-299 (100 videos)                                 │
+│ Setup:                                                       │
+│   1. Create a GitHub repo                                   │
+│   2. Start Codespaces                                       │
+│   3. Upload batch_2.csv and lightweight_checker.py          │
+│   4. Install: pip install youtube-transcript-api pandas     │
+│   5. Edit INPUT_CSV = "batch_2.csv"                          │
+│   6. Run: python lightweight_checker.py                     │
+│ Time: ~20-30 minutes                                        │
+│ Download: results_2.csv                                     │
+└─────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────┐
+│ PLATFORM 4: COLAB (DIFFERENT ACCOUNT)                       │
+├─────────────────────────────────────────────────────────────┤
+│ Batch: 300-399 (100 videos)                                 │
+│ Use a different Google account or browser profile          │
+│ Same steps as Platform 2, but with batch_3.csv             │
+└─────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────┐
+│ PLATFORM 5: KAGGLE (DIFFERENT NOTEBOOK)                     │
+├─────────────────────────────────────────────────────────────┤
+│ Batch: 400-499 (100 videos)                                 │
+│ Create a completely new notebook                           │
+│ Same steps as Platform 1, but with batch_4.csv             │
+└─────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────┐
+│ PLATFORM 6: ANY REMAINING PLATFORM                          │
+├─────────────────────────────────────────────────────────────┤
+│ Batch: 500-537 (38 videos)                                  │
+│ Use any available platform (Replit, local machine, etc.)   │
+│ Quick - only 38 videos!                                     │
+└─────────────────────────────────────────────────────────────┘
+
+════════════════════════════════════════════════════════════════════════
+PHASE 3: MERGE RESULTS (2 minutes)
+════════════════════════════════════════════════════════════════════════
+
+After all batches complete:
+
+1. Download all result files:
+   - results_0.csv
+   - results_1.csv
+   - results_2.csv
+   - results_3.csv
+   - results_4.csv
+   - results_5.csv
+
+2. Run: python merge_results.py
+
+3. This creates: final_transcript_availability.csv
+
+════════════════════════════════════════════════════════════════════════
+ALTERNATIVE: SEQUENTIAL STRATEGY (If you can't run parallel)
+════════════════════════════════════════════════════════════════════════
+
+Use ONE platform but with breaks:
+
+Day 1 Morning:   Kaggle    - Check videos 0-100
+Day 1 Afternoon: Colab     - Check videos 100-200
+Day 1 Evening:   Codespaces- Check videos 200-300
+Day 2 Morning:   Kaggle    - Check videos 300-400
+Day 2 Afternoon: Colab     - Check videos 400-500
+Day 2 Evening:   Any       - Check videos 500-538
+
+Each session is safe with 2-3 hour gaps between them.
+
+════════════════════════════════════════════════════════════════════════
+RATE LIMIT SAFETY
+════════════════════════════════════════════════════════════════════════
+
+The lightweight checker:
+✅ Only LISTS transcripts (doesn't download)
+✅ Much faster per video (~2-3 seconds vs 5-10 seconds)
+✅ Lower API usage = less likely to trigger limits
+✅ 2-4 second delays between requests
+✅ Auto-stops if rate limited detected
+✅ Saves progress every 10 videos
+
+Expected time per 100 videos: 6-10 minutes (vs 20-30 for full extraction)
+
+════════════════════════════════════════════════════════════════════════
+WHAT TO DO IF RATE LIMITED
+════════════════════════════════════════════════════════════════════════
+
+If any batch gets rate limited mid-way:
+
+1. Don't panic - progress is saved!
+2. Wait 1-2 hours
+3. Re-run the same script on the same platform
+4. It will resume from where it stopped
+5. Or switch to a different platform and continue that batch
+
+════════════════════════════════════════════════════════════════════════
+FINAL OUTPUT
+════════════════════════════════════════════════════════════════════════
+
+You'll get a CSV with these columns:
+
+- video_id: The YouTube video ID
+- has_transcript: True/False
+- has_bangla: True/False  
+- has_english: True/False
+- total_languages: Number of available languages
+- manual_count: How many manual transcripts
+- auto_count: How many auto-generated
+- languages: Comma-separated list (e.g., "bn,en,hi")
+- status: Available/Disabled/Unavailable/Error
+
+You can then filter for videos with Bangla:
+  df[df['has_bangla'] == True]
+
+════════════════════════════════════════════════════════════════════════
+ESTIMATED TOTAL TIME
+════════════════════════════════════════════════════════════════════════
+
+Parallel (all platforms at once): 30-40 minutes total
+Sequential (one platform): 3-4 hours spread over 2 days
+Your choice based on available platforms!
+
+════════════════════════════════════════════════════════════════════════
