@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
+!wget https://raw.githubusercontent.com/Sanjidx090/ytranscript/refs/heads/main/result_b/batch_9.csv
 """
 LIGHTWEIGHT TRANSCRIPT AVAILABILITY CHECKER
 Only checks IF transcripts exist - doesn't download them
 Much faster and less likely to trigger rate limits
 """
-
+!pip install youtube-transcript-api
 # !pip -q install youtube-transcript-api
 import pandas as pd
 import time
@@ -16,8 +17,8 @@ import youtube_transcript_api._errors as yt_errors
 # ==============================
 # CONFIG - EDIT THESE
 # ==============================
-INPUT_CSV = "video_ids.csv"  # Your input CSV file
-OUTPUT_CSV = "transcript_availability.csv"  # Results will be saved here
+INPUT_CSV = "/content/batch_9.csv"  # Your input CSV file
+OUTPUT_CSV = "batch_9_result.csv"  # Results will be saved here
 VIDEO_ID_COLUMN = "video_id"  # Column name containing video IDs
 
 # Which batch to process (for splitting across platforms)
@@ -51,10 +52,19 @@ results = []
 
 if os.path.exists(OUTPUT_CSV):
     print(f"📁 Found existing results: {OUTPUT_CSV}")
-    existing_df = pd.read_csv(OUTPUT_CSV)
-    already_checked = set(existing_df['video_id'].astype(str).tolist())
-    results = existing_df.to_dict('records')
-    print(f"✅ Already checked: {len(already_checked)} videos")
+    try:
+        existing_df = pd.read_csv(OUTPUT_CSV)
+        # Only process if the CSV is not empty after reading
+        if not existing_df.empty:
+            already_checked = set(existing_df['video_id'].astype(str).tolist())
+            results = existing_df.to_dict('records')
+            print(f"✅ Already checked: {len(already_checked)} videos")
+        else:
+            print("⚠️ Existing results file was empty, starting fresh.")
+    except pd.errors.EmptyDataError:
+        print("⚠️ Existing results file was empty or corrupt, starting fresh.")
+    except Exception as e:
+        print(f"❌ Error reading existing results file: {e}, starting fresh.")
 
 # Filter to unchecked videos
 unchecked_videos = [vid for vid in all_video_ids if vid not in already_checked]
@@ -235,26 +245,32 @@ print("=" * 70)
 
 df_results = pd.DataFrame(results)
 
-print(f"📊 This session: {processed} videos")
-print(f"📊 Total checked: {len(results)}/{len(all_video_ids)}")
-print()
+if not df_results.empty:
+    print(f"📊 This session: {processed} videos")
+    print(f"📊 Total checked: {len(results)}/{len(all_video_ids)}")
+    print()
 
-# Count by status
-status_counts = df_results['status'].value_counts()
-print("Status breakdown:")
-for status, count in status_counts.items():
-    print(f"  {status}: {count}")
-print()
+    # Count by status
+    status_counts = df_results['status'].value_counts()
+    print("Status breakdown:")
+    for status, count in status_counts.items():
+        print(f"  {status}: {count}")
+    print()
 
-# Key metrics
-available = df_results['has_transcript'].sum()
-bangla = df_results['has_bangla'].sum()
-english = df_results['has_english'].sum()
+    # Key metrics
+    available = df_results['has_transcript'].sum()
+    bangla = df_results['has_bangla'].sum()
+    english = df_results['has_english'].sum()
 
-print(f"✅ Has transcripts: {available}/{len(results)} ({100*available/len(results):.1f}%)")
-print(f"🇧🇩 Has Bangla: {bangla}/{len(results)} ({100*bangla/len(results):.1f}%)")
-print(f"🌐 Has English: {english}/{len(results)} ({100*english/len(results):.1f}%)")
+    print(f"✅ Has transcripts: {available}/{len(results)} ({100*available/len(results):.1f}%)")
+    print(f"🇧🇩 Has Bangla: {bangla}/{len(results)} ({100*bangla/len(results):.1f}%)")
+    print(f"🌐 Has English: {english}/{len(results)} ({100*english/len(results):.1f}%)")
+else:
+    print("No new videos were processed in this session, or no results were collected.")
+    print("Final results CSV might be empty or unchanged.")
 
 print()
 print(f"💾 Results saved to: {OUTPUT_CSV}")
 print("=" * 70)
+from google.colab import files
+files.download('batch_9_result.csv')
