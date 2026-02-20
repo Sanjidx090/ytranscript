@@ -1,0 +1,8 @@
+Batch,File,Videos,Count,Platform
+0,batch_0.csv,0-99,100,Kaggle (Notebook 1)
+1,batch_1.csv,100-199,100,Google Colab (Account 1)
+2,batch_2.csv,200-299,100,GitHub Codespaces
+3,batch_3.csv,300-399,100,Google Colab (Account 2)
+4,batch_4.csv,400-499,100,Kaggle (Notebook 2)
+5,batch_5.csv,500-599,100,Any other platform
+6,batch_6.csv,600-633,34,Platform 7
